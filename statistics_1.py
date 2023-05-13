@@ -41,5 +41,5 @@ def filter_dataframe(data, column_names, values):
     filter_condition = pd.concat(filter_conditions, axis=1).all(axis=1)
     return data[filter_condition]
 
-
 data = pd.read_json('objects.json')
+
