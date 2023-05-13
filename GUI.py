@@ -1,4 +1,5 @@
 import sys
+import statistics_1.py
 from PyQt5.QtWidgets import QDesktopWidget,QApplication, QWidget, QVBoxLayout, QHBoxLayout, QComboBox,QLineEdit
 
 # Create a new application instance
