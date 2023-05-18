@@ -1,6 +1,15 @@
 import sys
-import statistics_1.py
+import pandas as pd
+import json
+import statistics_1
+from getcategory import * 
 from PyQt5.QtWidgets import QDesktopWidget,QApplication, QWidget, QVBoxLayout, QHBoxLayout, QComboBox,QLineEdit
+
+
+#Reading the json file
+with open('objects.json') as f:
+    data = json.load(f)
+dataframe= pd.read_json(json.dumps(data))
 
 # Create a new application instance
 app = QApplication(sys.argv)
@@ -9,7 +18,7 @@ app = QApplication(sys.argv)
 window = QWidget()
 
 # Set the window size and title
-window.setWindowTitle('My PyQt5 Window')
+window.setWindowTitle('Analysis')
 window.setFixedSize(1000, 800)
 # Set the background color of the container widget
 window.setStyleSheet('background-color: #eff7f6;')
@@ -35,6 +44,7 @@ department.setLineEdit(lineedit)
 department.setPlaceholderText('Select a department')
 department.setStyleSheet('background-color: #f7d6e0;')
 department.setFixedSize(300, 40)
+department.addItems(getdepartments(dataframe))
 container_layout.addWidget(department)
 
 location = QComboBox()
@@ -44,6 +54,7 @@ location.setLineEdit(lineedit)
 location.setPlaceholderText('Select a location')
 location.setStyleSheet('background-color: #f7d6e0;')
 location.setFixedSize(300, 40)
+location.addItems(getlocations(dataframe))
 container_layout.addWidget(location)
 
 time = QComboBox()
@@ -53,6 +64,7 @@ time.setLineEdit(lineedit)
 time.setPlaceholderText('Select a time')
 time.setStyleSheet('background-color: #f7d6e0;')
 time.setFixedSize(300, 40)
+time.addItems(gettime(dataframe))
 container_layout.addWidget(time)
 
 # Set the container layout for the container widget

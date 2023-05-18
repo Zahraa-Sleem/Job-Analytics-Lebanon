@@ -24,5 +24,4 @@ def counttime(data):
     df_frequency_time.columns = ['time', 'count']
     print(df_frequency_time)
 
-data = pd.read_json('objects.json')
 
