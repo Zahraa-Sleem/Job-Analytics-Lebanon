@@ -1,16 +1,15 @@
 import pandas as pd
 import json
 def getdepartments(dataframe):
-    departments = dataframe['department'].unique()
+    departments_old = dataframe['department'].unique()
+    departments = ['']+departments_old.tolist()
     return departments
 def getlocations(dataframe):
-    locations = dataframe['location'].unique()
+    locations_old = dataframe['location'].unique()
+    locations =['']+locations_old.tolist()
     return locations
 def gettime(dataframe):
-    times = dataframe['time'].unique()
+    times_old = dataframe['time'].unique()
+    times =['']+times_old.tolist()
     return times
-
-# with open('objects.json') as f:
-#     data = json.load(f)
-# dataframe= pd.read_json(json.dumps(data))
 
