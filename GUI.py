@@ -7,22 +7,43 @@ from plotting import *
 import plotly.express as px
 from PyQt5.QtWidgets import QPushButton,QApplication, QWidget, QVBoxLayout, QHBoxLayout, QComboBox,QLineEdit
 from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt5 import QtCore
 from filtering import *
 
-GRAPH_DEPARTMENT=None
-GRAPH_TITLE=None
-GRAPH_LOCATION=None
-GRAPH_TIME=None
+Graph_Department=None
+Graph_Title=None
+Graph_Location=None
+Graph_Time=None
+widgets_added = False
+webview1 = None
+webview2 = None
+webview3 = None
+ 
 
 def filter():
+    global widgets_added
+    global webview1
+    global webview2
+    global webview3
+    if not widgets_added:
+        webview1 = QWebEngineView()
+        webview2 = QWebEngineView()
+        webview3 = QWebEngineView()
+        layout.addWidget(webview2)
+        layout.addWidget(webview3)
+        widgets_added = True
     #Changing dataframe from filtered values
     department_selected_value = department.currentText()
     location_selected_value = location.currentText()
     time_selected_value = time.currentText()
-    GRAPH_DEPARTMENT=None
-    GRAPH_TITLE=None
-    GRAPH_LOCATION=None
-    GRAPH_TIME=None
+    global Graph_Department
+    Graph_Department=None
+    global Graph_Title
+    Graph_Title=None
+    global Graph_Location
+    Graph_Location=None
+    global Graph_Time
+    Graph_Time=None
     #setting the filtered
     attributes=[]
     values=[]
@@ -39,14 +60,43 @@ def filter():
     if(len(attributes)>0):
         toberepresented=filter_dataframe(dataframe, attributes, values)
     draw(attributes,toberepresented)
+        # Save the graphs as separate HTML files
+    if Graph_Department!=None:
+        print("PRINTING GRAPH DEPARTMENT \n",Graph_Department)
+        Graph_Department.write_html('department.html')
+        # webview = QWebEngineView()
+        # webview.load(QtCore.QUrl.fromLocalFile(os.path.abspath('department.html')))
+    else:
+        print("GRAPH DEPARTMENT IS NONE")
+    if Graph_Time!=None: 
+        print("PRINTING GRPAH TIME",Graph_Time)
+        Graph_Time.write_html('time.html')
+        # webview2 = QWebEngineView()
+        webview2.load(QtCore.QUrl.fromLocalFile(os.path.abspath('time.html')))
+        
+    else:
+        print("GRAPH TIME IS NONE")
+    if Graph_Title!=None:
+        print("PRINTING GRAPH TITLE",Graph_Title)
+        Graph_Title.write_html('titles.html')
+        # webview3 = QWebEngineView()
+        webview3.load(QtCore.QUrl.fromLocalFile(os.path.abspath('titles.html')))
+        
+    else:
+        print("GRAPH TITLE IS NONE")
 def draw(filters,toberepresented):
     if 'department' not in filters:
-        GRAPH_DEPARTMENT=plotdepartments(toberepresented)
+        print("Department not in filters")
+        global Graph_Department
+        Graph_Department=plotdepartments(toberepresented)
     # if 'location' not in filters:
-    #     GRAPH_LOCATION=plotlocation(toberepresented)
+    #     Graph_Location=plotlocation(toberepresented)
     if 'time' not in filters:
-         GRAPH_TIME=plottime(toberepresented)
-    GRAPH_TITLE=plotjobtitles(toberepresented)  
+        print("Time not in filters")
+        global Graph_Time
+        Graph_Time=plottime(toberepresented)
+    global Graph_Title
+    Graph_Title=plotjobtitles(toberepresented)  
     
     
 #Reading the json file
@@ -131,25 +181,9 @@ layout.addStretch(1)
 # Set the main layout for the window
 window.setLayout(layout)
 
-# Save the graphs as separate HTML files
-if GRAPH_DEPARTMENT!=None:
-    GRAPH_DEPARTMENT.write_html('department.html')
-    webview = QWebEngineView()
-    webview.load(QtCore.QUrl.fromLocalFile(os.path.abspath('department.html')))
-    layout.addWidget(webview)
-if GRAPH_TIME!=None: 
-    GRAPH_TIME.write_html('time.html')
-    webview2 = QWebEngineView()
-    webview2.load(QtCore.QUrl.fromLocalFile(os.path.abspath('time.html')))
-    layout.addWidget(webview2)
-if GRAPH_TITLE!=None:
-    GRAPH_TITLE.write_html('titles.html')
-    webview3 = QWebEngineView()
-    webview3.load(QtCore.QUrl.fromLocalFile(os.path.abspath('titles.html')))
-    layout.addWidget(webview3)
-
 # Show the window
 window.show()
 
 # Run the event loop to keep the window open
 sys.exit(app.exec_())
+
