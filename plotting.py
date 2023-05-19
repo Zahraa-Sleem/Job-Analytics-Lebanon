@@ -35,16 +35,9 @@ def plotdepartments(dataframe):
 def plottime(dataframe):
     result=counttime(dataframe)
     fig = px.bar(data_frame=result, x='time', y='count', title='Time')
-    fig.show()
     return fig
 
 def plotjobtitles(dataframe):
     result=countjobs(dataframe)
     fig = px.pie(result, names='title', values='count', title='Titles')
-    fig.show()
     return fig
-
-with open('objects.json') as f:
-    data = json.load(f)
-dataframe= pd.read_json(json.dumps(data))
-plotjobtitles(dataframe)
