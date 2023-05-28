@@ -1,6 +1,6 @@
 import plotly.express as px
 from statistics_1 import *
-import folium
+# import folium
 import json
 
 def plotdepartments(dataframe):
@@ -33,11 +33,16 @@ def plotdepartments(dataframe):
 #     return m
     
 def plottime(dataframe):
+    custom_colors = ['#e76895', '#b557c3', '#9d57cb', '#e9b8a9','#efe7e3'] 
     result=counttime(dataframe)
-    fig = px.bar(data_frame=result, x='time', y='count', title='Time')
+    fig = px.pie(result, names='time', values='count', title='Time',color='time',color_discrete_sequence=custom_colors)
+    # fig = px.bar(data_frame=result, x='time', y='count', title='Time')
     return fig
 
-def plotjobtitles(dataframe):
-    result=countjobs(dataframe)
-    fig = px.pie(result, names='title', values='count', title='Titles')
+def plottags(dataframe):
+    custom_colors = ['#e76895', '#b557c3', '#9d57cb', '#e9b8a9','#efe7e3'] 
+    result=counttags(dataframe)
+    fig = px.bar(data_frame=result, x='Frequency', y='Tag', title='Tags',orientation='h',color='Tag',
+             color_discrete_sequence=custom_colors)
+    # fig = px.pie(result, names='tag', values='count', title='Tags')
     return fig

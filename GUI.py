@@ -73,17 +73,11 @@ def filter():
         Graph_Time.write_html('time.html')
         # webview2 = QWebEngineView()
         webview2.load(QtCore.QUrl.fromLocalFile(os.path.abspath('time.html')))
-        
-    else:
-        print("GRAPH TIME IS NONE")
     if Graph_Title!=None:
         print("PRINTING GRAPH TITLE",Graph_Title)
         Graph_Title.write_html('titles.html')
         # webview3 = QWebEngineView()
         webview3.load(QtCore.QUrl.fromLocalFile(os.path.abspath('titles.html')))
-        
-    else:
-        print("GRAPH TITLE IS NONE")
 def draw(filters,toberepresented):
     if 'department' not in filters:
         print("Department not in filters")
@@ -96,7 +90,7 @@ def draw(filters,toberepresented):
         global Graph_Time
         Graph_Time=plottime(toberepresented)
     global Graph_Title
-    Graph_Title=plotjobtitles(toberepresented)  
+    Graph_Title=plottags(toberepresented)  
     
     
 #Reading the json file
@@ -134,7 +128,6 @@ department = QComboBox()
 lineedit = QLineEdit()
 lineedit.setPlaceholderText('Select a department')
 department.setLineEdit(lineedit)
-department.setPlaceholderText('Select a department')
 department.setStyleSheet('background-color: #f7d6e0;')
 department.setFixedSize(250, 40)
 department.addItems(getdepartments(dataframe))
@@ -144,7 +137,6 @@ location = QComboBox()
 lineedit = QLineEdit()
 lineedit.setPlaceholderText('Select a location')
 location.setLineEdit(lineedit)
-location.setPlaceholderText('Select a location')
 location.setStyleSheet('background-color: #f7d6e0;')
 location.setFixedSize(250, 40)
 location.addItems(getlocations(dataframe))
@@ -154,7 +146,6 @@ time = QComboBox()
 lineedit = QLineEdit()
 lineedit.setPlaceholderText('Select a time')
 time.setLineEdit(lineedit)
-time.setPlaceholderText('Select a time')
 time.setStyleSheet('background-color: #f7d6e0;')
 time.setFixedSize(250, 40)
 time.addItems(gettime(dataframe))
