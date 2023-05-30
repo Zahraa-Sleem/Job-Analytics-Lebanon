@@ -8,13 +8,12 @@ def countdepartment(data):
     df_frequency_department.columns = ['department', 'count']
     return df_frequency_department
 
-
 def countlocation(data):
     location_frequency = data['location'].value_counts()
     # convert the Pandas Series object to a DataFrame
     df_frequency_locations = location_frequency.reset_index()
     # rename the columns of the DataFrame
-    df_frequency_locations.columns = ['location', 'count']
+    df_frequency_locations.columns = ['Location', 'Count']
     return df_frequency_locations
     
 def counttime(data):

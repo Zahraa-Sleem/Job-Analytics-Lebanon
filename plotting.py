@@ -1,36 +1,44 @@
 import plotly.express as px
 from statistics_1 import *
-# import folium
+import folium
+from opencage.geocoder import OpenCageGeocode
 import json
 
 def plotdepartments(dataframe):
+    custom_colors = ['#e76895', '#b557c3', '#9d57cb', '#e9b8a9','#efe7e3'] 
     result=countdepartment(dataframe)
-    fig = px.pie(result, names='department', values='count', title='Departments')
+    fig = px.bar(result, x='department', y='count', title='Departments',color='department',color_discrete_sequence=custom_colors)
     return fig
 
-# def plotlocation(dataframe):
-#     # Load the GeoJSON data for country boundaries
-#     geojson_data = folium.datasets.geojson.WorldCountries
-#     # Create a map centered at a specific location
-#     m = folium.Map(location=[0, 0], zoom_start=2)
-#     # Create a Choropleth map
-#     folium.Choropleth(
-#         geo_data=geojson_data,
-#         name='choropleth',
-#         data=dataframe,
-#         columns=['Country', 'Value'],
-#         key_on='feature.properties.name',
-#         fill_color='green',
-#         fill_opacity=0.7,
-#         line_opacity=0.2,
-#         legend_name='Value'
-#     ).add_to(m)
-#     # Find the value for the specified country in the DataFrame
-#     country_value = dataframe.loc[dataframe['Country'] == location, 'Value'].values[0]
-#     # Add a marker to the specified country with the value as a popup
-#     folium.Marker(location=[0, 0], popup=str(country_value), icon=folium.Icon(color='green')).add_to(m)
-#     # Display the map
-#     return m
+import folium
+from opencage.geocoder import OpenCageGeocode
+
+import folium
+from opencage.geocoder import OpenCageGeocode
+
+def plotlocation(dataframe):
+    result = countlocation(dataframe)
+    # Create a map object
+    world_map = folium.Map()
+    # Initialize the geocoder with your API key
+    geocoder = OpenCageGeocode("001a4519b76e4c4480b90ea3643a4e31")
+    # Create a dictionary to store geocoded coordinates
+    coordinates = {}
+    for _, row in result.iterrows():
+        country_name = row['Location']
+        # Check if coordinates are already geocoded
+        if country_name in coordinates:
+            latitude, longitude = coordinates[country_name]
+        else:
+            # Geocode the country name to get the coordinates
+            results = geocoder.geocode(country_name)
+            latitude = results[0]['geometry']['lat']
+            longitude = results[0]['geometry']['lng']
+            # Cache the geocoded coordinates
+            coordinates[country_name] = (latitude, longitude)
+        folium.Marker(location=(latitude, longitude), popup=str(row['Count'])).add_to(world_map)
+    return world_map
+
     
 def plottime(dataframe):
     custom_colors = ['#e76895', '#b557c3', '#9d57cb', '#e9b8a9','#efe7e3'] 
