@@ -10,12 +10,6 @@ def plotdepartments(dataframe):
     fig = px.bar(result, x='department', y='count', title='Departments',color='department',color_discrete_sequence=custom_colors)
     return fig
 
-import folium
-from opencage.geocoder import OpenCageGeocode
-
-import folium
-from opencage.geocoder import OpenCageGeocode
-
 def plotlocation(dataframe):
     result = countlocation(dataframe)
     # Create a map object
