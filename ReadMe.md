@@ -53,7 +53,7 @@ click the filter button, display statistical plots about the filtered data.
 
 
 ## 2
-![](ReadMeStuff/Not filtered.png)
+![](ReadMeStuff/Notfiltered.png)
 
 The first bar graph shows the number of jobs in each department.
 The pie chart next illustrates the employment type distribution.
